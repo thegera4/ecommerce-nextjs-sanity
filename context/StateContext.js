@@ -52,12 +52,14 @@ export const StateContext = ({ children }) => {
     const newCartItems = cartItems.filter((item) => item._id !== id);
 
     if (value === 'inc') {
-      setCartItems([...newCartItems,{...foundProduct, quantity: foundProduct.quantity + 1}]);
+      //setCartItems([...newCartItems,{...foundProduct, quantity: foundProduct.quantity + 1}]);
+      setCartItems(cartItems.map((item) => item._id === id ? { ...foundProduct, quantity: foundProduct.quantity + 1 } : item));
       setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
       setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1);
     } else if(value === 'dec') {
       if (foundProduct.quantity > 1) {
-        setCartItems([...newCartItems,{...foundProduct, quantity: foundProduct.quantity - 1}]);
+        //setCartItems([...newCartItems,{...foundProduct, quantity: foundProduct.quantity - 1}]);
+        setCartItems(cartItems.map((item) => item._id === id ? { ...foundProduct, quantity: foundProduct.quantity - 1 } : item));
         setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
         setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1);
       }
@@ -88,6 +90,9 @@ export const StateContext = ({ children }) => {
         setShowCart,
         toggleCartItemQuantity,
         removeItem,
+        setCartItems,
+        setTotalPrice,
+        setTotalQuantities
       }}
     >
       {children}
